@@ -1,4 +1,8 @@
-|Build Status|
+Edited ZXCVBN
+======
+A user-friendly ZXCVBN variation that includes a starting file. Before starting, place the password list you want tested inside the top directory as a text file. To begin, run ``python Starting_file.py`` from command prompt that is already inside of the directory. It will ask for the name of the text file (do not include .txt). Then it will ask for if there is anything at the beginning you want ignored which requries an integer from 0 to any amount. It will then run and output the password, guess log10, and score in CSV format to easily move to an excel file.
+
+
 
 zxcvbn
 ======
