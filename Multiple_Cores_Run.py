@@ -1,14 +1,13 @@
 import os
 from zxcvbn import zxcvbn
 import multiprocessing
-
-# Make first list
-results = []
-
-index = 0
+import time
 
 
 def runSearch(inputFile, currentIndex):
+    results = []
+    start = time.time()
+
     # Open file for reading from
     file = open(inputFile + str(currentIndex) + ".txt", "r")
 
@@ -46,6 +45,9 @@ def runSearch(inputFile, currentIndex):
     # Stop using file for good practice
     file.close()
 
+    end = time.time()
+    print(end - start)
+
 
 if __name__ == '__main__':
     # # User input for name of input data file
@@ -59,7 +61,10 @@ if __name__ == '__main__':
 
     os.chdir("..")
 
+    procs = []
+
     for i in range(0, inputIndexAmount):
         p = multiprocessing.Process(
             target=runSearch, args=(inputFileName, i))
+        procs.append(p)
         p.start()
