@@ -47,7 +47,8 @@ def runSearch(inputFile, currentIndex):
             # Send to zxcvbn to get decryption results from
             results.append(zxcvbn(line))
 
-            print(count)
+            if (count % 1000 == 0):
+                print("Pass")
 
         except:
             # Add the location and reason for fail to errorLoc list
