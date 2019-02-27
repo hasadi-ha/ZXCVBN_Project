@@ -16,13 +16,16 @@ start = time.time()
 inputFileName = "passwords" + ".txt"
 
 # Get location for input and output using os
-cwdInput = "C:\\Users\\BigH\\Downloads\\ZXCVBN_Project\\example_data.txt"
-cwdOutput = str(os.getcwd()) + "\output_data.txt"
+# cwdInput = "C:\\Users\\BigH\\Downloads\\ZXCVBN_Project\\example_data.txt"
+cwdInput = "input_data_example.txt"
+# cwdOutput = str(os.getcwd()) + "\output_data.txt"
+cwdOutput = "output_data.txt"
 
 # Open file for reading from
 file = open(cwdInput, "r")
 
 for line in file:
+    line = line[41:].strip()
     # Send to zxcvbn to get decryption results from
     results.append(zxcvbn(line))
 
