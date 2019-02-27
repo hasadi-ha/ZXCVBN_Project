@@ -16,7 +16,7 @@ start = time.time()
 inputFileName = "passwords" + ".txt"
 
 # Get location for input and output using os
-cwdInput = "C:\\Users\\BigH\\Downloads\\ZXCVBN_Project-master\\passwords.txt"
+cwdInput = "C:\\Users\\BigH\\Downloads\\ZXCVBN_Project\\example_data.txt"
 cwdOutput = str(os.getcwd()) + "\output_data.txt"
 
 # Open file for reading from
