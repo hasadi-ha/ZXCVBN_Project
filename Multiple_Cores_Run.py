@@ -48,7 +48,7 @@ def runSearch(inputFile, currentIndex):
             results.append(zxcvbn(line))
 
             if (count % 1000 == 0):
-                print("Pass")
+                print("Pass" + str(count))
 
         except:
             # Add the location and reason for fail to errorLoc list
