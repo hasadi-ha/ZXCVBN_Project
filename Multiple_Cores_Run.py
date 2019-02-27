@@ -22,7 +22,7 @@ def runSearch(inputFile, currentIndex):
     # Stop using file for good practice
     file.close()
 
-    cwdOutput = "output_data" + currentIndex + ".txt"
+    cwdOutput = "output_data" + str(currentIndex) + ".txt"
 
     # Start an output file to write to
     file = open(cwdOutput, "w+")
@@ -57,7 +57,9 @@ if __name__ == '__main__':
     # Get location for input
     # cwdInput = "input_data_example.txt"
 
-    for i in range(inputIndexAmount):
+    os.chdir("..")
+
+    for i in range(0, inputIndexAmount):
         p = multiprocessing.Process(
-            target=runSearch, args=(inputFileName, inputIndexAmount))
+            target=runSearch, args=(inputFileName, i))
         p.start()
