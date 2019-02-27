@@ -12,6 +12,7 @@ def runSearch(inputFile, currentIndex):
 
     # Open file for reading from
     file = open(inputFile + str(currentIndex) + ".txt", "r")
+
     # file = open(inputFile + str(currentIndex), "r")
 
     for line in file:
@@ -19,7 +20,9 @@ def runSearch(inputFile, currentIndex):
 
         try:
             line = line[41:].strip()
+
             # print(line)
+
         except:
             errorLoc.append(
                 "***__Remove & Strip__ fail at location: " + str(count) + "***")
@@ -27,6 +30,7 @@ def runSearch(inputFile, currentIndex):
 
         try:
             # Send to zxcvbn to get decryption results from
+
             # print(zxcvbn(line))
 
             results.append(zxcvbn(line))
@@ -55,6 +59,7 @@ def runSearch(inputFile, currentIndex):
 
         # Write to output file using each line as new password and data about it
         # Also using a comma as a delimiter for possible conversion into excel sheet
+
         # print("Password:," + i["password"].strip("\n") + "," + "Guesses_Log10:," + str(
         #     i['guesses_log10']) + "," + "Score:," + str(i["score"]) + "," + "uid:," + str(count) + ",\n")
 
@@ -88,5 +93,7 @@ if __name__ == '__main__':
     for i in range(0, inputIndexAmount):
         p = multiprocessing.Process(
             target=runSearch, args=(inputFileName, i))
+
         # procs.append(p)
+
         p.start()
