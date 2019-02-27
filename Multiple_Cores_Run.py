@@ -9,7 +9,8 @@ def runSearch(inputFile, currentIndex):
     start = time.time()
 
     # Open file for reading from
-    file = open(inputFile + str(currentIndex) + ".txt", "r")
+    # file = open(inputFile + str(currentIndex) + ".txt", "r")
+    file = open(inputFile + str(currentIndex), "r")
 
     for line in file:
         line = line[41:].strip()
