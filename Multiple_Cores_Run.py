@@ -2,6 +2,13 @@ import os
 from zxcvbn import zxcvbn
 import multiprocessing
 import time
+import hashlib
+
+
+def hashInput(inputData):
+    hash_object = hashlib.sha1(inputData)
+    hex_dig = hash_object.hexdigest()
+    return hex_dig
 
 
 def runSearch(inputFile, currentIndex):
@@ -16,11 +23,11 @@ def runSearch(inputFile, currentIndex):
     start = time.time()
 
     # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-    file = open(inputFile + str(currentIndex) + ".txt", "r")
+    fileIn = open(inputFile + str(currentIndex) + ".txt", "r")
     # file = open(inputFile + str(currentIndex), "r")
 
     # Run loop to read each line of file to run ZXCVBN against
-    for line in file:
+    for line in fileIn:
         # Increment counter for creating identification
         count += 1
 
@@ -62,13 +69,13 @@ def runSearch(inputFile, currentIndex):
     print(errorLoc)
 
     # Stop using file
-    file.close()
+    fileIn.close()
 
     # Create output file title and location
     cwdOutput = "output_data" + str(currentIndex) + ".txt"
 
     # Start an output file to write to
-    file = open(cwdOutput, "w+")
+    fileGeneralOut = open(cwdOutput, "w+")
 
     # Reset counter since resulsts loop already used it
     count = 0
@@ -88,16 +95,16 @@ def runSearch(inputFile, currentIndex):
 
         # Write to output file using each line as new password and data about it
         # Also using a comma as a delimiter for possible conversion into excel sheet
-        file.write("Password:," + i["password"].strip("\n") + "," + "Guesses_Log10:," + str(
+        fileGeneralOut.write("Password:," + i["password"].strip("\n") + "," + "Guesses_Log10:," + str(
             i['guesses_log10']) + "," + "Score:," + str(i["score"]) + "," + "uid:," + str(count) + ",\n")
 
     # Loop to write all errors to file as well at bottom
     for i in errorLoc:
         # Write particular error to file
-        file.write(i)
+        fileGeneralOut.write(i)
 
     # Stop using file
-    file.close()
+    fileGeneralOut.close()
 
     # End time counter
     end = time.time()
