@@ -39,6 +39,9 @@ def runSearch(inputFile, currentIndex):
             # print(line)
 
         except:
+            # Alert user
+            print("***__Remove & Strip__ fail at location: " + str(count) + "***")
+
             # Add the location and reason for fail to errorLoc list
             errorLoc.append(
                 "***__Remove & Strip__ fail at location: " + str(count) + "***")
@@ -58,6 +61,8 @@ def runSearch(inputFile, currentIndex):
                 print("Pass" + str(count))
 
         except:
+            # Alert user
+            print("***__ZXCVBN__ fail at location: " + str(count) + "***")
             # Add the location and reason for fail to errorLoc list
             errorLoc.append(
                 "***__ZXCVBN__ fail at location: " + str(count) + "***")
