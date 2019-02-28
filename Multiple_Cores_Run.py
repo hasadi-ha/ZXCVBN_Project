@@ -1,12 +1,12 @@
 import os
 from zxcvbn import zxcvbn
-import multiprocessing
+from multiprocessing import Process
 import time
-import hashlib
+from hashlib import sha1
 
 
 def hashInput(inputData):
-    hash_object = hashlib.sha1(inputData)
+    hash_object = sha1(inputData)
     hex_dig = hash_object.hexdigest()
     return hex_dig
 
@@ -132,10 +132,14 @@ if __name__ == '__main__':
     # Could be used
     # procs = []
 
+    # A loop to create all processes depending on index amount
     for i in range(0, inputIndexAmount):
-        p = multiprocessing.Process(
+        # Opens up a single process running the search and passing arguments
+        p = Process(
             target=runSearch, args=(inputFileName, i))
 
+        # Could add processes to a list to check back on later
         # procs.append(p)
 
+        # Starts off current process to run
         p.start()
