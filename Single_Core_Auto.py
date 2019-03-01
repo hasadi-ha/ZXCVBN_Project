@@ -23,10 +23,10 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     start = time.time()
 
     # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-    # fileIn = open(inputFile + str(currentIndexFirst) +
-    #               str(currentIndexSecond).zfill(2) + ".txt", "r")
     fileIn = open(inputFile + str(currentIndexFirst) +
-                  str(currentIndexSecond).zfill(2), "r")
+                  str(currentIndexSecond).zfill(2) + ".txt", "r")
+    # fileIn = open(inputFile + str(currentIndexFirst) +
+    #               str(currentIndexSecond).zfill(2), "r")
 
     # Run loop to read each line of file to run ZXCVBN against
     for line in fileIn:
@@ -42,12 +42,13 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
         except:
             # Alert user
-            print("*** __Remove & Strip__ fail at location: " + str(count) + " ***")
+            print("***** ERROR: __Remove & Strip__ FAIL at location: " +
+                  str(count) + " :ERROR *****\n")
 
             # Add the location and reason for fail to errorLoc list
             errorLoc.append(
-                "*** __Remove & Strip__ fail at location: " +
-                str(count) + " ***"
+                "***** ERROR: __Remove & Strip__ FAIL at location: " +
+                str(count) + " :ERROR *****"
             )
 
             # Continue on with loop since fail recorded
@@ -62,15 +63,17 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             results.append(zxcvbn(line))
 
             if count % 20000 == 0:
-                print("Pass" + str(count) + "\n")
-                print(time.time()-start + "\n")
+                print("Analyzed " + str(count) + " passwords\n")
+                print("@" + time.time() - start + " seconds\n")
 
         except:
             # Alert user
-            print("*** __ZXCVBN__ fail at location: " + str(count) + " ***")
+            print("***** ERROR: __ZXCVBN__ FAIL at location: " +
+                  str(count) + " :ERROR *****\n")
+
             # Add the location and reason for fail to errorLoc list
             errorLoc.append(
-                "*** __ZXCVBN__ fail at location: " + str(count) + " ***")
+                "***** ERROR: __ZXCVBN__ FAIL at location: " + str(count) + " :ERROR *****")
 
             # Continue on with loop since fail recorded
             continue
@@ -109,7 +112,8 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
         except:
             # Alert user to fail in hashing
-            print("*** __ZXCVBN__ fail at location: " + str(count) + " ***")
+            print("***** ERROR: __ZXCVBN__ FAIL at location: " +
+                  str(count) + " :ERROR *****\n")
 
             # Print out error in file
             shaHash = "error"
@@ -158,15 +162,18 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     end = time.time()
 
     # Print out time result to alert user
-    print(end - start)
+    print("* Analysed Piece File #" +
+          str(currentIndexSecond + 1) + " *")
+    print("Finished @" + str(end - start) + " seconds\n")
 
 
 if __name__ == "__main__":
     # Instruct user on how the program will read data
-    print("\n\n\n **** To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! **** \n\n\n")
+    print("\n\n ** To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! ** \n\n")
 
     # Allow user to leave before program runs if they don't understand
     if (str(input("Do you understand? Enter Y/N: ")).lower() != "y"):
+        print("\n**** EXITING NOW ****\n")
         exit()
 
     print("\n")
@@ -189,10 +196,17 @@ if __name__ == "__main__":
 
     print("\n")
 
+    print("*************** ANALYSIS STARTING ***************\n")
+
     # For particular test case
     # Need to go one up to retrieve input_data files
     os.chdir("..")
 
     for x in range(0, inputIndexAmountFirst):
+        print("* Analyzing Master File #" + str(x + 1) + " *\n")
         for y in range(0, inputIndexAmountSecond):
+            print("* Analyzing Piece File #" + str(y + 1) + " *\n")
             runSearch(inputFileName, x, y)
+        print("* Finished Analyzing Master File #" + str(x + 1) + " *\n")
+
+print("*************** ANALYSIS COMPLETE ***************\n")
