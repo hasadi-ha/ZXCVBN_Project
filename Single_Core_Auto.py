@@ -61,8 +61,9 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Send to zxcvbn to get decryption results from
             results.append(zxcvbn(line))
 
-            if count % 10000 == 0:
-                print("Pass" + str(count))
+            if count % 20000 == 0:
+                print("Pass" + str(count) + "\n")
+                print(time.time()-start + "\n")
 
         except:
             # Alert user
