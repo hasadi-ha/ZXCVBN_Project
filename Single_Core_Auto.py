@@ -28,6 +28,8 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     fileIn = open(inputFile + str(currentIndexFirst) +
                   str(currentIndexSecond).zfill(2), "r")
 
+    # test
+
     # Run loop to read each line of file to run ZXCVBN against
     for line in fileIn:
         # Increment counter for creating identification
