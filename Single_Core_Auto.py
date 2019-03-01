@@ -160,8 +160,10 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
 
 if __name__ == "__main__":
+    # Instruct user on how the program will read data
     print("\n\n\n **** To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! **** \n\n\n")
 
+    # Allow user to leave before program runs if they don't understand
     if (input("Do you understand? Enter Y/N: ") == "N"):
         exit()
 

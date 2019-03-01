@@ -158,6 +158,15 @@ def runSearch(inputFile, currentIndex):
 
 
 if __name__ == "__main__":
+    # Instruct user on how the program will read data
+    print("\n\n\n **** To make this work, you need to first make sure that the master file is broken up into something like x00. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x00 and go on with that. So an example file set could be x00 x01 x02. DO NOT DEVIATE FROM THIS! **** \n\n\n")
+
+    # Allow user to leave before program runs if they don't understand
+    if (input("Do you understand? Enter Y/N: ") == "N"):
+        exit()
+
+    print("\n")
+
     # User input for name of input data file
     inputFileName = str(
         input("Enter name of input data file (don't include final index nor .txt): ")
