@@ -64,7 +64,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
             if count % 20000 == 0:
                 print("Analyzed " + str(count) + " passwords\n")
-                print("@" + time.time() - start + " seconds\n")
+                print("@" + str(time.time() - start) + " seconds\n")
 
         except:
             # Alert user
