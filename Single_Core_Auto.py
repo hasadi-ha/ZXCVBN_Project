@@ -1,6 +1,5 @@
 import os
 from zxcvbn import zxcvbn
-from multiprocessing import Process
 import time
 from hashlib import sha1
 
@@ -12,7 +11,7 @@ def hashInput(inputData):
     return hex_dig
 
 
-def runSearch(inputFile, currentIndex):
+def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     # instantiate storage lists
     results = []
     errorLoc = []
@@ -24,7 +23,8 @@ def runSearch(inputFile, currentIndex):
     start = time.time()
 
     # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-    fileIn = open(inputFile + str(currentIndex) + ".txt", "r")
+    fileIn = open(inputFile + str(currentIndexFirst) +
+                  str(currentIndexSecond).zfill(2) + ".txt", "r")
     # fileIn = open(inputFile + str(currentIndex), "r")
 
     # Run loop to read each line of file to run ZXCVBN against
@@ -80,8 +80,10 @@ def runSearch(inputFile, currentIndex):
     fileIn.close()
 
     # Create output file title and location
-    cwdOutputGen = "output_data" + str(currentIndex) + ".txt"
-    cwdOutputSHA = "output_data_SHA" + str(currentIndex) + ".txt"
+    cwdOutputGen = ("output_data" +
+                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
+    cwdOutputSHA = ("output_data_SHA" +
+                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
 
     # Start an output file to write to
     fileGeneralOut = open(cwdOutputGen, "w+")
@@ -158,32 +160,35 @@ def runSearch(inputFile, currentIndex):
 
 
 if __name__ == "__main__":
+    print("\n\n\n **** To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! **** \n\n\n")
+
+    if (input("Do you understand? Enter Y/N: ") == "N"):
+        exit()
+
+    print("\n")
+
     # User input for name of input data file
     inputFileName = str(
-        input("Enter name of input data file (don't include final index nor .txt): ")
-    )
+        input("Enter name of input data file (don't include final index nor .txt): "))
 
-    # User input for how many files will need a process assigned for it
-    inputIndexAmount = int(input("Enter how many files to run through: "))
+    print("\n")
 
-    # Test location for input
-    # cwdInput = "input_data_example.txt"
+    # User input for how many master files will be there
+    inputIndexAmountFirst = int(
+        input("Enter how many master files there are: "))
+
+    print("\n")
+
+    # User input for how many pieces of files will be there
+    inputIndexAmountSecond = int(
+        input("Enter how many pieces there are to run through: "))
+
+    print("\n")
 
     # For particular test case
     # Need to go one up to retrieve input_data files
     os.chdir("..")
 
-    # Instantiate list of all running processes
-    # Could be used
-    # procs = []
-
-    # A loop to create all processes depending on index amount
-    for i in range(0, inputIndexAmount):
-        # Opens up a single process running the search and passing arguments
-        p = Process(target=runSearch, args=(inputFileName, i))
-
-        # Could add processes to a list to check back on later
-        # procs.append(p)
-
-        # Starts off current process to run
-        p.start()
+    for x in range(0, inputIndexAmountFirst):
+        for y in range(0, inputIndexAmountSecond):
+            runSearch(inputFileName, x, y)
