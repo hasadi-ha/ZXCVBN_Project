@@ -1,5 +1,4 @@
 import os
-import gc
 import time
 from hashlib import sha1
 import psutil
@@ -185,13 +184,6 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     print("* Analysed Piece File #" +
           str(currentIndexSecond + 1) + " *")
     print("Finished @" + str(round(end - start, 3)) + " seconds\n")
-
-    del results
-    del fileIn
-    del fileGeneralOut
-    del fileSHAOut
-    del count
-    gc.collect()
 
 
 if __name__ == "__main__":
