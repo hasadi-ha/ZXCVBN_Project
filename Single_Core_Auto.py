@@ -21,8 +21,8 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
                       str(currentIndexSecond).zfill(2), "r")
     except:
         # Alert user of failure to open file
-        print("***** ERROR: __OpenFile__" + inputFile+str(currentIndexFirst) +
-              str(currentIndexSecond) + " Does not exist :ERROR*****\n")
+        print('***** ERROR: __OpenFile__ "' + inputFile+str(currentIndexFirst) +
+              str(currentIndexSecond) + '" Does not exist :ERROR*****\n')
 
         # Exit file analysis
         return
@@ -188,6 +188,11 @@ if __name__ == "__main__":
 
     print("\n")
 
+    inputFilesLocation = str(
+        input("Enter the location of files to be read: ")).replace("/", "\\")
+
+    print("\n")
+
     # User input for name of input data file
     inputFileName = str(
         input("Enter name of input data file (don't include final index nor .txt): "))
@@ -210,13 +215,13 @@ if __name__ == "__main__":
 
     # For particular test case
     # Need to go one up to retrieve input_data files
-    os.chdir("..")
+    os.chdir(inputFilesLocation)
 
     for x in range(0, inputIndexAmountFirst):
-        print("* Analyzing Master File #" + str(x + 1) + " *\n")
+        print("* Analyzing MASTER File #" + str(x + 1) + " *\n")
         for y in range(0, inputIndexAmountSecond):
             print("* Analyzing Piece File #" + str(y + 1) + " *\n")
             runSearch(inputFileName, x, y)
-        print("* Finished Analyzing Master File #" + str(x + 1) + " *\n")
+        print("* Finished Analyzing MASTER File #" + str(x + 1) + " *\n")
 
 print("*************** ANALYSIS COMPLETE ***************\n")
