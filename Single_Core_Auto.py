@@ -1,7 +1,9 @@
 import os
-from zxcvbn import zxcvbn
+import gc
 import time
 from hashlib import sha1
+import psutil
+from zxcvbn import zxcvbn
 
 
 def hashInput(inputData):
@@ -15,10 +17,10 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
     # Attempt opening files for reading
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-        # fileIn = open(inputFile + str(currentIndexFirst) +
-        #               str(currentIndexSecond).zfill(2) + ".txt", "r")
         fileIn = open(inputFile + str(currentIndexFirst) +
-                      str(currentIndexSecond).zfill(2), "r")
+                      str(currentIndexSecond).zfill(2) + ".txt", "r")
+        # fileIn = open(inputFile + str(currentIndexFirst) +
+        #               str(currentIndexSecond).zfill(2), "r")
     except:
         # Alert user of failure to open file
         print('***** ERROR: __OpenFile__ "' + inputFile+str(currentIndexFirst) +
@@ -75,6 +77,14 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
                 end = time.time()
                 print("\nAnalyzed " + str(count) + " passwords")
                 print("@" + str(round(end - start, 3)) + " seconds\n")
+                process = psutil.Process(os.getpid())
+                print(
+                    "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *")
+
+        except KeyboardInterrupt:
+            print("KEYBOARD INTERRUPT DETECTED")
+            print("\n**** EXITING NOW ****\n")
+            exit()
 
         except:
             # Alert user
@@ -176,6 +186,13 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
           str(currentIndexSecond + 1) + " *")
     print("Finished @" + str(round(end - start, 3)) + " seconds\n")
 
+    del results
+    del fileIn
+    del fileGeneralOut
+    del fileSHAOut
+    del count
+    gc.collect()
+
 
 if __name__ == "__main__":
     # Instruct user on how the program will read data
@@ -190,6 +207,10 @@ if __name__ == "__main__":
 
     inputFilesLocation = str(
         input("Enter the location of files to be read: ")).replace("/", "\\")
+
+    # Easy testing on personal computer
+    # Comment out on production version
+    inputFilesLocation = "c:\\users\\bigh\\downloads"
 
     print("\n")
 
