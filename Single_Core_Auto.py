@@ -69,16 +69,21 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Tester to see what ZXCVBN says
             # print(zxcvbn(line))
 
+            temp = zxcvbn(line)
+            data = {}
+            data['password'] = temp['password']
+            data['guesses_log10'] = temp['guesses_log10']
+
             # Send to zxcvbn to get decryption results from
-            results.append(zxcvbn(line))
+            results.append(data)
 
             if count % 20000 == 0:
                 end = time.time()
                 print("\nAnalyzed " + str(count) + " passwords")
-                print("@" + str(round(end - start, 3)) + " seconds\n")
+                print("@" + str(round(end - start, 3)) + " seconds")
                 process = psutil.Process(os.getpid())
                 print(
-                    "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *")
+                    "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *\n")
 
         except KeyboardInterrupt:
             print("KEYBOARD INTERRUPT DETECTED")
