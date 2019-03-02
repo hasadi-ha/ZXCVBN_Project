@@ -12,6 +12,21 @@ def hashInput(inputData):
 
 
 def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
+    # Attempt opening files for reading
+    try:
+        # Open file for reading from (Change based on if .txt is present or not by uncommenting)
+        # fileIn = open(inputFile + str(currentIndexFirst) +
+        #               str(currentIndexSecond).zfill(2) + ".txt", "r")
+        fileIn = open(inputFile + str(currentIndexFirst) +
+                      str(currentIndexSecond).zfill(2), "r")
+    except:
+        # Alert user of failure to open file
+        print("***** ERROR: __OpenFile__" + inputFile+str(currentIndexFirst) +
+              str(currentIndexSecond) + " Does not exist :ERROR*****\n")
+
+        # Exit file analysis
+        return
+
     # instantiate storage lists
     results = []
     errorLoc = []
@@ -21,14 +36,6 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
     # Start timer to know how long process took
     start = time.time()
-
-    # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-    # fileIn = open(inputFile + str(currentIndexFirst) +
-    #               str(currentIndexSecond).zfill(2) + ".txt", "r")
-    fileIn = open(inputFile + str(currentIndexFirst) +
-                  str(currentIndexSecond).zfill(2), "r")
-
-    # test
 
     # Run loop to read each line of file to run ZXCVBN against
     for line in fileIn:
@@ -172,7 +179,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
 
 if __name__ == "__main__":
     # Instruct user on how the program will read data
-    print("\n\n ** To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! ** \n\n")
+    print("\n\n**To make this work, you need to first make sure that each file is broken up how you want. An example name for a broken up piece could be x000. MAKE SURE TO FOLLOW THIS NAMING STANDARD! Start name with x000 and go on with that. So one set for one master file could be x000 x001 x002 and the next master file would be x100 x101 x102. DO NOT DEVIATE FROM THIS! **\n\n")
 
     # Allow user to leave before program runs if they don't understand
     if (str(input("Do you understand? Enter Y/N: ")).lower() != "y"):
