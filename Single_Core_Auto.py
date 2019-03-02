@@ -20,6 +20,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
                       str(currentIndexSecond).zfill(2) + ".txt", "r")
         # fileIn = open(inputFile + str(currentIndexFirst) +
         #               str(currentIndexSecond).zfill(2), "r")
+
     except:
         # Alert user of failure to open file
         print('***** ERROR: __OpenFile__ "' + inputFile+str(currentIndexFirst) +
@@ -28,12 +29,22 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
         # Exit file analysis
         return
 
+    # Create output file title and location
+    cwdOutputGen = ("output_data" +
+                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
+    cwdOutputSHA = ("output_data_SHA" +
+                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
+
     # instantiate storage lists
     results = []
     errorLoc = []
 
     # Begin count variable to uid
     count = 0
+
+    # Start an output file to write to
+    fileGeneralOut = open(cwdOutputGen, "w+")
+    fileSHAOut = open(cwdOutputSHA, "w+")
 
     # Start timer to know how long process took
     start = time.time()
@@ -48,7 +59,17 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Removes the first 41 characters and any spaces
             # Using 41 because it is hash size + :
             line = line[41:].strip()
+
             # print(line)
+
+        # Check for keyboard interrupt because try-except goes around it if not accounted for
+        except KeyboardInterrupt:
+            # Alert user
+            print("KEYBOARD INTERRUPT DETECTED")
+            print("\n**** EXITING NOW ****\n")
+
+            # Leave Program
+            exit()
 
         except:
             # Alert user
@@ -69,25 +90,44 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Tester to see what ZXCVBN says
             # print(zxcvbn(line))
 
-            temp = zxcvbn(line)
+            # Initialize jSON to store zxcvbn info
             data = {}
-            data['password'] = temp['password']
-            data['guesses_log10'] = temp['guesses_log10']
 
-            # Send to zxcvbn to get decryption results from
-            results.append(data)
+            # Get zxcvbn to analyze and place in temp complete value
+            temp = zxcvbn(line)
 
+            # Checks if 20,000 lines have been passed through
             if count % 20000 == 0:
+                # Get end time to calculate current time
                 end = time.time()
+
+                # Alerts user about pass through
                 print("\nAnalyzed " + str(count) + " passwords")
                 print("@" + str(round(end - start, 3)) + " seconds")
+
+                # Gets ID of current python program
                 process = psutil.Process(os.getpid())
+
+                # Alerts user of current memory usage
                 print(
                     "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *\n")
 
+            # Remove any result that is too weak to be useful for goal
+            if temp["guesses_log10"] < 8:
+                # If result unuseful, move on to next
+                continue
+
+            # Parse through JSON and pull out necessary info
+            data['password'] = temp['password']
+            data['guesses_log10'] = temp['guesses_log10']
+
+        # Check for keyboard interrupt because try-except goes around it if not accounted for
         except KeyboardInterrupt:
+            # Alert user
             print("KEYBOARD INTERRUPT DETECTED")
             print("\n**** EXITING NOW ****\n")
+
+            # Leave Program
             exit()
 
         except:
@@ -102,37 +142,19 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Continue on with loop since fail recorded
             continue
 
-    # # Print out any errors for alerting user at end
-    # print(errorLoc)
-
-    # Stop using file
-    fileIn.close()
-
-    # Create output file title and location
-    cwdOutputGen = ("output_data" +
-                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
-    cwdOutputSHA = ("output_data_SHA" +
-                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
-
-    # Start an output file to write to
-    fileGeneralOut = open(cwdOutputGen, "w+")
-    fileSHAOut = open(cwdOutputSHA, "w+")
-
-    # Reset counter since resulsts loop already used it
-    count = 0
-
-    for i in results:
-        # Setup counting by adding 1 each time there is a new result to output
-        count += 1
-
-        # Remove any result that is too weak to be useful for goal
-        if i["guesses_log10"] < 8:
-            # If result unuseful, move on to next
-            continue
-
+        # Try-except for hasing attempt of password
         try:
             # Acquire the hash for the password and remove spaces from array
-            shaHash = hashInput(i["password"])
+            shaHash = hashInput(data["password"])
+
+        # Check for keyboard interrupt because try-except goes around it if not accounted for
+        except KeyboardInterrupt:
+            # Alert user
+            print("KEYBOARD INTERRUPT DETECTED")
+            print("\n**** EXITING NOW ****\n")
+
+            # Leave Program
+            exit()
 
         except:
             # Alert user to fail in hashing
@@ -142,10 +164,6 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Print out error in file
             shaHash = "error"
 
-        # Error check
-        # print("Password:," + i["password"].strip("\n") + "," + "Guesses_Log10:," + str(
-        #     i['guesses_log10']) + "," + "Score:," + str(i["score"]) + "," + "uid:," + str(count) + ",\n")
-
         # Write to outputGen file using each line as new password and data about it
         # Also using a comma as a delimiter for possible conversion into excel sheet
         fileGeneralOut.write(
@@ -153,10 +171,10 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             + str(shaHash)
             + ","
             + "Password:,"
-            + i["password"].strip("\n")
+            + data["password"].strip("\n")
             + ","
             + "Guesses_Log10:,"
-            + str(i["guesses_log10"])
+            + str(data["guesses_log10"])
             + ","
             + "uid:,"
             + str(count)
@@ -173,12 +191,18 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             + "1,\n"
         )
 
+    # # Print out any errors for alerting user at end
+    # print(errorLoc)
+
     # Loop to write all errors to file as well at bottom
     for i in errorLoc:
         # Write particular error to file
         fileGeneralOut.write(i)
 
-    # Stop using file
+    # Stop using In file
+    fileIn.close()
+
+    # Stop using Out file
     fileGeneralOut.close()
     fileSHAOut.close()
 
