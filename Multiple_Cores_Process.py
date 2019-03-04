@@ -2,7 +2,7 @@ import os
 from multiprocessing import Process
 import time
 from hashlib import sha1
-import psutil
+# import psutil
 from zxcvbn import zxcvbn
 
 
@@ -17,8 +17,8 @@ def runSearch(inputFile, currentIndex):
     # Attempt opening files for reading
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
-        fileIn = open(inputFile + str(currentIndex).zfill(2) + ".txt", "r")
-        # fileIn = open(inputFile + str(currentIndexFirst), "r")
+        # fileIn = open(inputFile + str(currentIndex).zfill(2) + ".txt", "r")
+        fileIn = open(inputFile + str(currentIndexFirst), "r")
 
     except:
         # Alert user of failure to open file
@@ -101,12 +101,12 @@ def runSearch(inputFile, currentIndex):
                 print("\nAnalyzed " + str(count) + " passwords")
                 print("@" + str(round(end - start, 3)) + " seconds")
 
-                # Gets ID of current python program
-                process = psutil.Process(os.getpid())
+                # # Gets ID of current python program
+                # process = psutil.Process(os.getpid())
 
-                # Alerts user of current memory usage
-                print(
-                    "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *\n")
+                # # Alerts user of current memory usage
+                # print(
+                #     "* " + str(round(process.memory_info().rss / 1024/1024, 4)) + "MB *\n")
 
             # Remove any result that is too weak to be useful for goal
             if temp["guesses_log10"] < 8:
@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
     # For particular test case
     # Need to go one up to retrieve input_data files
-    os.chdir(inputFilesLocation)
+    os.chdir("..")
 
     # Instantiate list of all running processes
     # Could be used
