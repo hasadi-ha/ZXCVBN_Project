@@ -231,7 +231,7 @@ if __name__ == "__main__":
                         help="input for how many master files there are (REQUIRED if not verbose)")
     parser.add_argument("-p", "--pieces", type=int,
                         help="input for how many pieces each master file is broken into (REQUIRED if not verbose)")
-    parser.add_argument("-h", "--hash", type=int,
+    parser.add_argument("-H", "--hash", type=int,
                         help="size of the hash plus colon that will be ignored")
 
     # Pull in values of arguments

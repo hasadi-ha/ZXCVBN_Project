@@ -227,7 +227,7 @@ if __name__ == "__main__":
         "-n", "--name", help="inital name of files to be run through not including index nor .txt (REQUIRED if not verbose)")
     parser.add_argument("-f", "--files", type=int,
                         help="input for how many files there are to run through (REQUIRED if not verbose)")
-    parser.add_argument("-h", "--hash", type=int,
+    parser.add_argument("-H", "--hash", type=int,
                         help="size of the hash plus colon that will be ignored")
 
     # Pull in values of arguments
