@@ -18,7 +18,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond, hashSize):
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
         # fileIn = open(inputFile + str(currentIndexFirst) +
-                    #   str(currentIndexSecond).zfill(2) + ".txt", "r")
+        #               str(currentIndexSecond).zfill(2) + ".txt", "r")
         fileIn = open(inputFile + str(currentIndexFirst) +
                       str(currentIndexSecond).zfill(2), "r")
 
@@ -58,7 +58,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond, hashSize):
         try:
             # Removes the first 41 characters and any spaces
             # Using 41 because it is hash size + :
-            line = line[hashSIze:].strip()
+            line = line[hashSize:].strip()
 
             # print(line)
 
