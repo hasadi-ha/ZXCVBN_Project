@@ -18,12 +18,12 @@ def runSearch(inputFile, currentIndex):
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
         # fileIn = open(inputFile + str(currentIndex).zfill(2) + ".txt", "r")
-        fileIn = open(inputFile + str(currentIndexFirst), "r")
+        fileIn = open(inputFile + str(currentIndex), "r")
 
     except:
         # Alert user of failure to open file
         print('***** ERROR: __OpenFile__ "' + inputFile +
-              str(currentIndex).zfill(2) + '" Does not exist :ERROR*****\n')
+              str(currentIndex).zfill(2) + '" Does not exist :ERROR *****\n')
 
         # Exit file analysis
         return
@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
     # For particular test case
     # Need to go one up to retrieve input_data files
-    os.chdir("..")
+    os.chdir("/home/hasadi/new")
 
     # Instantiate list of all running processes
     # Could be used
