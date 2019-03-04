@@ -15,18 +15,18 @@ def hashInput(inputData):
 
 def runSearch(inputFile, currentIndex):
     # Attempt opening files for reading
-    try:
+    # try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
         # fileIn = open(inputFile + str(currentIndex).zfill(2) + ".txt", "r")
-        fileIn = open(inputFile + str(currentIndex), "r")
+    fileIn = open(inputFile + str(currentIndex), "r")
 
-    except:
-        # Alert user of failure to open file
-        print('***** ERROR: __OpenFile__ "' + inputFile +
-              str(currentIndex).zfill(2) + '" Does not exist :ERROR *****\n')
+    # except:
+    #     # Alert user of failure to open file
+    #     print('***** ERROR: __OpenFile__ "' + inputFile +
+    #           str(currentIndex).zfill(2) + '" Does not exist :ERROR *****\n')
 
-        # Exit file analysis
-        return
+    #     # Exit file analysis
+    #     return
 
     # Create output file title and location
     cwdOutputGen = ("output_data" + str(currentIndex).zfill(2) + ".txt")
