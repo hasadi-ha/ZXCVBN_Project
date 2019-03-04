@@ -50,6 +50,7 @@ def runSearch(inputFile, currentIndex):
     for line in fileIn:
         # Increment counter for creating identification
         count += 1
+        print(count)
 
         # Try-Except for reading line
         try:
