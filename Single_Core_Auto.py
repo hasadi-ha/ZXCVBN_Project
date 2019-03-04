@@ -32,9 +32,9 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond, hashSize):
 
     # Create output file title and location
     cwdOutputGen = ("output_data" +
-                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
+                    str(currentIndexFirst) + str(currentIndexSecond).zfill(2) + ".txt")
     cwdOutputSHA = ("output_data_SHA" +
-                    str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
+                    str(currentIndexFirst) + str(currentIndexSecond).zfill(2) + ".txt")
 
     # instantiate storage lists
     errorLoc = []
