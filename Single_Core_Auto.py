@@ -36,7 +36,6 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
                     str(currentIndexFirst) + str(currentIndexSecond) + ".txt")
 
     # instantiate storage lists
-    results = []
     errorLoc = []
 
     # Begin count variable to uid
@@ -90,8 +89,8 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             # Tester to see what ZXCVBN says
             # print(zxcvbn(line))
 
-            # Initialize jSON to store zxcvbn info
-            data = {}
+            # # Initialize jSON to store zxcvbn info
+            # data = {}
 
             # Get zxcvbn to analyze and place in temp complete value
             temp = zxcvbn(line)
@@ -117,9 +116,9 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
                 # If result unuseful, move on to next
                 continue
 
-            # Parse through JSON and pull out necessary info
-            data['password'] = temp['password']
-            data['guesses_log10'] = temp['guesses_log10']
+            # # Parse through JSON and pull out necessary info
+            # data['password'] = temp['password']
+            # data['guesses_log10'] = temp['guesses_log10']
 
         # Check for keyboard interrupt because try-except goes around it if not accounted for
         except KeyboardInterrupt:
@@ -145,7 +144,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
         # Try-except for hasing attempt of password
         try:
             # Acquire the hash for the password and remove spaces from array
-            shaHash = hashInput(data["password"])
+            shaHash = hashInput(temp["password"])
 
         # Check for keyboard interrupt because try-except goes around it if not accounted for
         except KeyboardInterrupt:
@@ -171,10 +170,10 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
             + str(shaHash)
             + ","
             + "Password:,"
-            + data["password"].strip("\n")
+            + temp["password"].strip("\n")
             + ","
             + "Guesses_Log10:,"
-            + str(data["guesses_log10"])
+            + str(temp["guesses_log10"])
             + ","
             + "uid:,"
             + str(count)
