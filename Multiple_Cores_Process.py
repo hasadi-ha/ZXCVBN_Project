@@ -56,7 +56,7 @@ def runSearch(inputFile, currentIndex):
         try:
             # Removes the first 41 characters and any spaces
             # Using 41 because it is hash size + :
-            line = line[41:].strip()
+            line = line[0:].strip()
 
             # print(line)
 
