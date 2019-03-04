@@ -18,7 +18,7 @@ def runSearch(inputFile, currentIndex):
     # try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
         # fileIn = open(inputFile + str(currentIndex).zfill(2) + ".txt", "r")
-    fileIn = open(inputFile + str(currentIndex), "r")
+    fileIn = open(inputFile + str(currentIndex).zfill(2), "r")
 
     # except:
     #     # Alert user of failure to open file
