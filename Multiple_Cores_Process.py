@@ -14,7 +14,7 @@ def hashInput(inputData):
     return hex_dig
 
 
-def runSearch(inputFile, currentIndex):
+def runSearch(inputFile, currentIndex, hashSize):
     # Attempt opening files for reading
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
@@ -56,7 +56,7 @@ def runSearch(inputFile, currentIndex):
         try:
             # Removes the first 41 characters and any spaces
             # Using 41 because it is hash size + :
-            line = line[0:].strip()
+            line = line[hashSize:].strip()
 
             # print(line)
 
@@ -227,6 +227,8 @@ if __name__ == "__main__":
         "-n", "--name", help="inital name of files to be run through not including index nor .txt (REQUIRED if not verbose)")
     parser.add_argument("-f", "--files", type=int,
                         help="input for how many files there are to run through (REQUIRED if not verbose)")
+    parser.add_argument("-h", "--hash", type=int,
+                        help="size of the hash plus colon that will be ignored")
 
     # Pull in values of arguments
     args = parser.parse_args()
@@ -296,10 +298,20 @@ if __name__ == "__main__":
             # Exit program
             exit()
 
-        # Put flags into variables
+        # Put flag values into variables
         inputFileName = args.name
         inputFilesLocation = args.location
         inputIndexAmount = args.files
+
+    # Check for if hash flag present
+    if args.hash is not None:
+        # Put flag value into variable
+        inputHashSize = args.hash
+
+    # Force a standard hash size
+    else:
+        # Put standard size into variable
+        inputHashSize = 41
 
     # Easy testing on personal computer
     # Comment out on production version
@@ -322,7 +334,7 @@ if __name__ == "__main__":
         print("* Analyzing File #" + str(i).zfill(2) + " *\n")
 
         # Opens up a single process running the search and passing arguments
-        p = Process(target=runSearch, args=(inputFileName, i))
+        p = Process(target=runSearch, args=(inputFileName, i, inputHashSize))
 
         # Could add processes to a list to check back on later
         # procs.append(p)

@@ -13,7 +13,7 @@ def hashInput(inputData):
     return hex_dig
 
 
-def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
+def runSearch(inputFile, currentIndexFirst, currentIndexSecond, hashSize):
     # Attempt opening files for reading
     try:
         # Open file for reading from (Change based on if .txt is present or not by uncommenting)
@@ -58,7 +58,7 @@ def runSearch(inputFile, currentIndexFirst, currentIndexSecond):
         try:
             # Removes the first 41 characters and any spaces
             # Using 41 because it is hash size + :
-            line = line[41:].strip()
+            line = line[hashSIze:].strip()
 
             # print(line)
 
@@ -231,6 +231,8 @@ if __name__ == "__main__":
                         help="input for how many master files there are (REQUIRED if not verbose)")
     parser.add_argument("-p", "--pieces", type=int,
                         help="input for how many pieces each master file is broken into (REQUIRED if not verbose)")
+    parser.add_argument("-h", "--hash", type=int,
+                        help="size of the hash plus colon that will be ignored")
 
     # Pull in values of arguments
     args = parser.parse_args()
@@ -311,11 +313,21 @@ if __name__ == "__main__":
             # Exit program
             exit()
 
-        # Put flags into variables
+        # Put flag values into variables
         inputFileName = args.name
         inputFilesLocation = args.location
         inputIndexAmountFirst = args.master
         inputIndexAmountSecond = args.pieces
+
+    # Check for if hash flag present
+    if args.hash is not None:
+        # Put flag value into variable
+        inputHashSize = args.hash
+
+    # Force a standard hash size
+    else:
+        # Put standard size into variable
+        inputHashSize = 41
 
     # Easy testing on personal computer
     # Comment out on production version
@@ -332,7 +344,7 @@ if __name__ == "__main__":
         print("* Analyzing MASTER File #" + str(x + 1) + " *\n")
         for y in range(0, inputIndexAmountSecond):
             print("* Analyzing Piece File #" + str(y + 1) + " *\n")
-            runSearch(inputFileName, x, y)
+            runSearch(inputFileName, x, y, inputHashSize)
         print("* Finished Analyzing MASTER File #" + str(x + 1) + " *\n")
 
 print("*************** ANALYSIS COMPLETE ***************\n")
