@@ -224,7 +224,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-v", "--verbose", help="display instructions, settings, and increase output", action="store_true")
     parser.add_argument(
-        "-l", "--location", help="insert where the location of the input files are (REQUIRED if not verbose)")
+        "location", help="insert where the location of the input files are")
     parser.add_argument(
         "-n", "--name", help="inital name of files to be run through not including index nor .txt (REQUIRED if not verbose)")
     parser.add_argument("-m", "--master", type=int,
@@ -236,6 +236,9 @@ if __name__ == "__main__":
 
     # Pull in values of arguments
     args = parser.parse_args()
+
+    # Attach flag value of location to a variable
+    inputFileLocation = args.location
 
     # Check for verbose flag
     if args.verbose is True:
@@ -250,10 +253,11 @@ if __name__ == "__main__":
 
         print("\n")
 
-        inputFilesLocation = str(
-            input("Enter the location of files to be read: ")).replace("/", "\\")
+        # # User input for the location of data to read
+        # inputFilesLocation = str(
+        #     input("Enter the location of files to be read: ")).replace("/", "\\")
 
-        print("\n")
+        # print("\n")
 
         # User input for name of input data file
         inputFileName = str(
@@ -279,10 +283,10 @@ if __name__ == "__main__":
         # Instantiate holder list for flags
         flags = []
 
-        # Check for if locaiton flag is missing
-        if args.location is None:
-            # Insert missing flag into holder list
-            flags.append("location,")
+        # # Check for if locaiton flag is missing
+        # if args.location is None:
+        #     # Insert missing flag into holder list
+        #     flags.append("location,")
 
         # Check for if name flag is missing
         if args.name is None:
@@ -310,15 +314,17 @@ if __name__ == "__main__":
             flags[len(flags) - 1] = flags[len(flags) - 1].strip(",")
 
             # Alert user for missing flag and indicate which
+            print("\n")
             print(
-                "Multiple_Cores_Process.py: error: the following arguments are required:", *flags)
+                "ERROR: the following arguments are required if NOT VERBOSE:", *flags)
+            print("\n")
 
             # Exit program
             exit()
 
         # Put flag values into variables
         inputFileName = args.name
-        inputFilesLocation = args.location
+        # inputFilesLocation = args.location
         inputIndexAmountFirst = args.master
         inputIndexAmountSecond = args.pieces
 
@@ -334,11 +340,11 @@ if __name__ == "__main__":
 
     # Easy testing on personal computer
     # Comment out on production version
-    # inputFilesLocation = "c:\\users\\bigh\\downloads"
+    # inputFileLocation = "c:\\users\\bigh\\downloads"
 
     # For particular test case
     # Need to go one up to retrieve input_data files
-    os.chdir(inputFilesLocation)
+    os.chdir(inputFileLocation)
     # os.chdir("/home/hasadi/temp")
 
     print("*************** ANALYSIS STARTING ***************\n")
