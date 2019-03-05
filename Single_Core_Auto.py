@@ -282,22 +282,22 @@ if __name__ == "__main__":
         # Check for if locaiton flag is missing
         if args.location is None:
             # Insert missing flag into holder list
-            flags.append("location")
+            flags.append("location,")
 
         # Check for if name flag is missing
         if args.name is None:
             # Insert missing flag into holder list
-            flags.append("name")
+            flags.append("name,")
 
         # Check for if master flag is missing
         if args.master is None:
             # Insert missing flag into holder list
-            flags.append("master")
+            flags.append("master,")
 
         # Check for if pieces flag is missing
         if args.pieces is None:
             # Insert missing flag into holder list
-            flags.append("pieces")
+            flags.append("pieces,")
 
         # Checks if there are any missing flags
         if not flags:
@@ -306,9 +306,12 @@ if __name__ == "__main__":
 
         # Force stop for flags missing
         else:
+            # Remove last comma for good looks
+            flags[len(flags) - 1] = flags[len(flags) - 1].strip(",")
+
             # Alert user for missing flag and indicate which
             print(
-                "Multiple_Cores_Process.py: Error: the following arguments are required: ")
+                "Multiple_Cores_Process.py: error: the following arguments are required:", *flags)
 
             # Exit program
             exit()

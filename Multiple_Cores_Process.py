@@ -224,7 +224,7 @@ if __name__ == "__main__":
         "-l", "--location", help="insert where the location of the input files are (REQUIRED if not verbose)")
     parser.add_argument(
         "-n", "--name", help="inital name of files to be run through not including index nor .txt (REQUIRED if not verbose)")
-    parser.add_argument("-f", "--files", type=int,
+    parser.add_argument("-f", "--file", type=int,
                         help="input for how many files there are to run through (REQUIRED if not verbose)")
     parser.add_argument("-H", "--hash", type=int,
                         help="size of the hash plus colon that will be ignored")
@@ -271,17 +271,17 @@ if __name__ == "__main__":
         # Check for if location flag is missing
         if args.location is None:
             # Insert missing flag into holder list
-            flags.append("location")
+            flags.append("location,")
 
         # Check for if name flag is missing
         if args.name is None:
             # Insert missing flag into holder list
-            flags.append("name")
+            flags.append("name,")
 
         # Check for if files flag is missing
-        if args.files is None:
+        if args.file is None:
             # Insert missing flag into holder list
-            flags.append("files")
+            flags.append("file,")
 
         # Check for if there are any flags in list
         if not flags:
@@ -290,9 +290,12 @@ if __name__ == "__main__":
 
         # Force stop for flags missing
         else:
-            # Alert user
+            # Remove last comma for good looks
+            flags[len(flags) - 1] = flags[len(flags) - 1].strip(",")
+
+            # Alert user for missing flag and indicate which
             print(
-                "Multiple_Cores_Process.py: Error: the following arguments are required: ")
+                "Multiple_Cores_Process.py: error: the following arguments are required:", *flags)
 
             # Exit program
             exit()
@@ -300,7 +303,7 @@ if __name__ == "__main__":
         # Put flag values into variables
         inputFileName = args.name
         inputFilesLocation = args.location
-        inputIndexAmount = args.files
+        inputIndexAmount = args.file
 
     # Check for if hash flag present
     if args.hash is not None:
